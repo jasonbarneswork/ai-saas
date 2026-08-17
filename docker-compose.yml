@@ -1,0 +1,45 @@
+services:
+
+  nginx:
+    image: nginx:alpine
+    container_name: ai-saas-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    container_name: ai-saas-php
+    volumes:
+      - ./:/var/www/html
+    environment:
+      APP_ENV: development
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ai_saas
+      DATABASE_USER: app
+      DATABASE_PASSWORD: secret
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:17
+    container_name: ai-saas-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ai_saas
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
