@@ -82,7 +82,7 @@ class AuthController
             'email'         => $email,
             'password_hash' => $passwordHash,
             'first_name'    => $firstName !== '' ? $firstName : null,
-            'last_name'     => $lastName !== '' ? $lastName : null,
+            'last_name'     => $lastName  !== '' ? $lastName  : null,
         ]);
 
         $user = $statement->fetch(PDO::FETCH_ASSOC);
@@ -103,7 +103,7 @@ class AuthController
     }
 
     public function login(
-        Request $request,
+        Request  $request,
         Response $response
     ): Response {
         $body = $request->getParsedBody();

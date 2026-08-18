@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI SaaS Platform — Tech Stack</title>
+<style>
+  :root{
+    --text:#1f2937;
+    --muted:#667085;
+    --blue:#1677e8;
+    --blue-dark:#1557a6;
+    --line:#e5e7eb;
+    --soft:#f6f7f9;
+    --code:#f4f4f4;
+    --white:#fff;
+  }
+
+  *{box-sizing:border-box}
+
+  html,body{
+    margin:0;
+    padding:0;
+    background:#eef1f5;
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    line-height:1.45;
+  }
+
+  body{
+    padding:32px 0;
+  }
+
+  .document{
+    width:210mm;
+    margin:0 auto;
+  }
+
+  .page{
+    width:210mm;
+    min-height:297mm;
+    padding:18mm 18mm 17mm;
+    margin:0 auto 18px;
+    background:var(--white);
+    box-shadow:0 8px 30px rgba(16,24,40,.10);
+    position:relative;
+    overflow:hidden;
+    page-break-after:always;
+    break-after:page;
+  }
+
+  .page:last-child{
+    page-break-after:auto;
+    break-after:auto;
+  }
+
+  .eyebrow{
+    color:var(--blue);
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    margin-bottom:7px;
+  }
+
+  h1{
+    margin:0 0 22px;
+    font-size:28px;
+    line-height:1.15;
+    color:#111827;
+    letter-spacing:-.02em;
+  }
+
+  h2{
+    margin:0 0 12px;
+    font-size:20px;
+    line-height:1.2;
+    color:#111827;
+    letter-spacing:-.01em;
+  }
+
+  h3{
+    margin:22px 0 9px;
+    font-size:15px;
+    color:#111827;
+  }
+
+  p{
+    margin:0 0 12px;
+    font-size:14px;
+  }
+
+  .lead{
+    color:#4b5563;
+    font-size:15px;
+    max-width:92%;
+  }
+
+  .rule{
+    height:1px;
+    background:var(--line);
+    margin:18px 0 20px;
+  }
+
+  .table{
+    width:100%;
+    border-collapse:collapse;
+    margin:8px 0 18px;
+    font-size:13px;
+  }
+
+  .table th{
+    text-align:left;
+    font-weight:700;
+    color:#111827;
+    border-bottom:1px solid #cfd4dc;
+    padding:8px 0;
+  }
+
+  .table td{
+    padding:10px 0;
+    border-bottom:1px solid #e9ebef;
+    vertical-align:top;
+  }
+
+  .table td:first-child{
+    width:42%;
+    font-weight:650;
+    color:#20242b;
+  }
+
+  .code{
+    background:var(--code);
+    border-radius:12px;
+    padding:18px 20px;
+    margin:12px 0 18px;
+    border-left:3px solid #d9dce1;
+    font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+    font-size:12.5px;
+    line-height:1.65;
+    white-space:pre-wrap;
+    overflow-wrap:anywhere;
+  }
+
+  .code.center{
+    text-align:center;
+  }
+
+  .stack{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px 14px;
+    margin:12px 0 18px;
+  }
+
+  .pill{
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    border-radius:10px;
+    padding:10px 12px;
+    font-size:13px;
+  }
+
+  .pill strong{display:block;color:#111827;margin-bottom:2px}
+
+  .note{
+    border-left:3px solid #cfd4dc;
+    padding:7px 0 7px 16px;
+    margin:13px 0;
+    font-size:14px;
+  }
+
+  .diagram{
+    background:var(--code);
+    border-radius:12px;
+    padding:18px;
+    margin:14px 0 20px;
+  }
+
+  .node{
+    width:58%;
+    margin:0 auto;
+    border:1px solid #7c8188;
+    background:#fafafa;
+    padding:9px 12px;
+    text-align:center;
+    font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;
+    font-size:13px;
+  }
+
+  .arrow{
+    text-align:center;
+    font-family:"SFMono-Regular",Consolas,monospace;
+    font-size:20px;
+    line-height:1.25;
+    color:#4b5563;
+    padding:2px 0;
+  }
+
+  .node .small{
+    font-size:11px;
+    color:#59616b;
+  }
+
+  .two-col{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+  }
+
+  .bullet{
+    margin:7px 0;
+    font-size:13.5px;
+  }
+
+  .bullet::before{
+    content:"•";
+    margin-right:9px;
+    color:#6b7280;
+  }
+
+  .footer{
+    position:absolute;
+    left:18mm;
+    right:18mm;
+    bottom:9mm;
+    display:flex;
+    justify-content:space-between;
+    color:#a1a7b0;
+    font-size:10px;
+  }
+
+  .footer .title{
+    font-weight:600;
+  }
+
+  .footer .page-no{
+    font-variant-numeric:tabular-nums;
+  }
+
+  .callout{
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+    padding:14px 16px;
+    margin:14px 0;
+  }
+
+  .callout strong{
+    color:#111827;
+  }
+
+  .one-line{
+    border-left:4px solid #d4d7dc;
+    padding:9px 15px;
+    margin:10px 0 18px;
+    font-weight:650;
+    font-size:14px;
+    line-height:1.55;
+  }
+
+  @media print{
+    html,body{background:#fff}
+    body{padding:0}
+    .document{width:auto;margin:0}
+    .page{
+      width:210mm;
+      height:297mm;
+      min-height:297mm;
+      margin:0;
+      box-shadow:none;
+      overflow:hidden;
+    }
+  }
+
+  @page{
+    size:A4 portrait;
+    margin:0;
+  }
+</style>
+</head>
+
+<body>
+<div class="document">
+
+  <!-- PAGE 1 -->
+  <section class="page">
+    <div class="eyebrow">AI SaaS Platform</div>
+    <h1>Tech Stack</h1>
+    <p class="lead">A lightweight PHP REST API platform using Slim, PostgreSQL, Docker, and a custom layered application architecture.</p>
+    <div class="rule"></div>
+
+    <h2>Backend</h2>
+    <table class="table">
+      <thead><tr><th>Technology</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td>PHP 8.4</td><td>Primary backend programming language</td></tr>
+        <tr><td>Slim Framework 4</td><td>Lightweight REST API framework and routing</td></tr>
+        <tr><td>PSR-7 / Slim PSR-7</td><td>HTTP request/response implementation</td></tr>
+        <tr><td>Composer</td><td>PHP dependency management and PSR-4 autoloading</td></tr>
+        <tr><td>PHP-Dotenv</td><td>Environment variable / <code>.env</code> configuration</td></tr>
+        <tr><td>Custom PHP architecture</td><td>Controllers, repositories, validation, middleware, resources</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Database</h2>
+    <table class="table">
+      <thead><tr><th>Technology</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td>PostgreSQL 17</td><td>Primary relational database</td></tr>
+        <tr><td>PDO</td><td>PHP database access</td></tr>
+      </tbody>
+    </table>
+
+    <h2>One-Line Version</h2>
+    <div class="one-line">PHP 8.4 / Slim 4 REST API / PostgreSQL 17 / PDO / Composer / PSR-4 / PHP-Dotenv / Nginx / PHP-FPM / Docker &amp; Docker Compose / Git</div>
+
+    <div class="footer"><span class="title">AI SaaS Platform — Tech Stack</span><span class="page-no">1 / 6</span></div>
+  </section>
+
+  <!-- PAGE 2 -->
+  <section class="page">
+    <div class="eyebrow">Development Environment</div>
+    <h1>Development Tools</h1>
+    <p class="lead">The local development environment shown in the source material is centered on macOS, Docker, PHP tooling, PostgreSQL, and API testing utilities.</p>
+    <div class="rule"></div>
+
+    <div class="code">macOS
+Docker
+Docker Compose
+VS Code
+Git
+Composer
+PostgreSQL
+TablePlus
+cURL</div>
+
+    <h2>What We're Deliberately NOT Using</h2>
+    <p>One of the architectural decisions shown in the source material is <strong>not using Laravel</strong>.</p>
+
+    <p>Instead, the application is built around a lightweight stack:</p>
+
+    <div class="code center">PHP 8.4
++
+Slim 4
++
+Custom Controllers
++
+Repositories
++
+Validation
++
+Middleware
++
+Resources
++
+Docker</div>
+
+    <div class="callout">
+      <strong>Why this approach?</strong><br>
+      The source material describes the application as lightweight and intended to give a clearer understanding of what is happening underneath the framework.
+    </div>
+
+    <h2>Architecture Summary</h2>
+    <div class="note">Layered REST API using middleware, controllers, repositories, validation, resources, PostgreSQL, and Dockerized infrastructure.</div>
+
+    <div class="footer"><span class="title">AI SaaS Platform — Tech Stack</span><span class="page-no">2 / 6</span></div>
+  </section>
+
+  <!-- PAGE 3 -->
+  <section class="page">
+    <div class="eyebrow">Infrastructure</div>
+    <h1>Current Architecture</h1>
+    <p class="lead">The infrastructure shown in the screenshots uses Nginx as the web server/reverse proxy, PHP-FPM with Slim as the application layer, and PostgreSQL as the database.</p>
+    <div class="rule"></div>
+
+    <div class="diagram">
+      <div class="node"><strong>Browser / Client</strong></div>
+      <div class="arrow">↓</div>
+      <div class="node"><strong>Nginx</strong><br><span class="small">:8080</span></div>
+      <div class="arrow">↓</div>
+      <div class="node"><strong>PHP-FPM</strong><br><span class="small">:9000 · Slim API</span></div>
+      <div class="arrow">↓</div>
+      <div class="node"><strong>PostgreSQL</strong><br><span class="small">17</span></div>
+    </div>
+
+    <h2>Web / Infrastructure</h2>
+    <table class="table">
+      <thead><tr><th>Technology</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td>Nginx 1.31.3</td><td>Web server / reverse proxy</td></tr>
+        <tr><td>PHP-FPM 8.4.24</td><td>Executes PHP application</td></tr>
+        <tr><td>Docker</td><td>Containerization</td></tr>
+        <tr><td>Docker Compose</td><td>Local multi-container orchestration</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Application Architecture</h2>
+    <div class="diagram">
+      <div class="node">HTTP Request</div>
+      <div class="arrow">↓</div>
+      <div class="node">Middleware</div>
+      <div class="arrow">↓</div>
+      <div class="node">Controller</div>
+      <div class="arrow">↓</div>
+      <div class="node">Validation → Repository</div>
+      <div class="arrow">↓</div>
+      <div class="node">PostgreSQL</div>
+      <div class="arrow">↓</div>
+      <div class="node">Resource / JSON Response</div>
+    </div>
+
+    <div class="footer"><span class="title">AI SaaS Platform — Tech Stack</span><span class="page-no">3 / 6</span></div>
+  </section>
+
+  <!-- PAGE 4 -->
+  <section class="page">
+    <div class="eyebrow">Application Structure</div>
+    <h1>Project Components</h1>
+    <p class="lead">The source material identifies the following important application components under <code>src/</code>.</p>
+    <div class="rule"></div>
+
+    <div class="code">src/
+├── Controllers/
+│   ├── AuthController.php
+│   ├── ListingController.php
+│   └── ListingImageController.php
+│
+├── Repositories/
+│   ├── ListingRepository.php
+│   └── ListingImageRepository.php
+│
+├── Validation/
+│   └── ListingValidator.php
+│
+├── Middleware/
+│   └── AuthMiddleware.php
+│
+├── Resources/
+│   └── ListingResource.php
+│
+└── Database/
+    └── Database.php</div>
+
+    <h2>Authentication</h2>
+    <div class="code center">Authentication
+    |
+    v
+POST /api/auth/login
+    |
+    v
+User credentials verified
+    |
+    v
+Bearer token generated
+    |
+    v
+Authorization: Bearer &lt;token&gt;
+    |
+    v
+AuthMiddleware
+    |
+    v
+$request-&gt;getAttribute('user')</div>
+
+    <p>This is particularly important because the source material also describes <strong>ownership authorization</strong>.</p>
+
+    <h2>Ownership Authorization</h2>
+    <div class="code">User 2
+  |
+  ├── Can update listing 3        ✓
+  ├── Can delete listing 3        ✓
+  └── Cannot update listing 1     ✕</div>
+
+    <div class="callout">
+      Ownership checks ensure that a user can modify the listings they own while preventing updates to another user's listing.
+    </div>
+
+    <div class="footer"><span class="title">AI SaaS Platform — Tech Stack</span><span class="page-no">4 / 6</span></div>
+  </section>
+
+  <!-- PAGE 5 -->
+  <section class="page">
+    <div class="eyebrow">Data &amp; Storage</div>
+    <h1>Database &amp; File Storage</h1>
+    <p class="lead">The screenshots show the core relational tables and a local filesystem structure for uploaded listing images.</p>
+    <div class="rule"></div>
+
+    <h2>Current Core Tables</h2>
+    <div class="code">users
+categories
+listings
+listing_images
+migrations</div>
+
+    <h2>File Storage</h2>
+    <p>Uploaded listing images currently use local filesystem storage.</p>
+
+    <div class="code">storage/
+└── uploads/
+    └── listings/
+        └── {listing_id}/
+            └── random-file-name.jpg</div>
+
+    <h2>Supported Image Types</h2>
+    <div class="stack">
+      <div class="pill"><strong>JPEG</strong>Image upload format</div>
+      <div class="pill"><strong>PNG</strong>Image upload format</div>
+      <div class="pill"><strong>WEBP</strong>Image upload format</div>
+    </div>
+
+    <h2>Database Role</h2>
+    <table class="table">
+      <thead><tr><th>Technology</th><th>Role</th></tr></thead>
+      <tbody>
+        <tr><td>PostgreSQL 17</td><td>Primary relational database</td></tr>
+        <tr><td>PDO</td><td>PHP database access</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <strong>Storage boundary:</strong><br>
+      The database represents application data, while listing image files are stored under the local <code>storage/uploads/listings/</code> hierarchy shown above.
+    </div>
+
+    <div class="footer"><span class="title">AI SaaS Platform — Tech Stack</span><span class="page-no">5 / 6</span></div>
+  </section>
+
+  <!-- PAGE 6 -->
+  <section class="page">
+    <div class="eyebrow">Interview Reference</div>
+    <h1>Project Summary</h1>
+    <p class="lead">A concise interview-ready summary assembled from the material shown in the screenshots.</p>
+    <div class="rule"></div>
+
+    <h2>Current Project Stack — One-Line Version</h2>
+    <div class="one-line">PHP 8.4 / Slim 4 REST API / PostgreSQL 17 / PDO / Composer / PSR-4 / PHP-Dotenv / Nginx / PHP-FPM / Docker &amp; Docker Compose / Git</div>
+
+    <h2>Architecture</h2>
+    <div class="one-line">Layered REST API using middleware, controllers, repositories, validation, resources, PostgreSQL, and Dockerized infrastructure.</div>
+
+    <h2>What the Project Demonstrates</h2>
+    <div class="two-col">
+      <div>
+        <div class="bullet">PHP 8.4 backend development</div>
+        <div class="bullet">Slim 4 REST API routing</div>
+        <div class="bullet">PSR-7 HTTP request/response handling</div>
+        <div class="bullet">Composer and PSR-4 autoloading</div>
+        <div class="bullet">Environment configuration with PHP-Dotenv</div>
+      </div>
+      <div>
+        <div class="bullet">PostgreSQL 17 with PDO</div>
+        <div class="bullet">Layered controllers/repositories design</div>
+        <div class="bullet">Validation and middleware</div>
+        <div class="bullet">Bearer-token authentication</div>
+        <div class="bullet">Ownership authorization and image storage</div>
+      </div>
+    </div>
+
+    <h2>End-to-End Request Flow</h2>
+    <div class="code center">Browser / Client
+      ↓
+Nginx :8080
+      ↓
+PHP-FPM :9000
+      ↓
+Slim API
+      ↓
+Middleware
+      ↓
+Controller
+      ↓
+Validation
+      ↓
+Repository
+      ↓
+PostgreSQL 17
+      ↓
+Resource / JSON Response</div>
+
+    <div class="callout">
+      <strong>Positioning:</strong><br>
+      The project is intentionally lightweight rather than Laravel-based, with the application structure and infrastructure kept explicit so the backend request flow is easy to explain.
+    </div>
+
+    <div class="footer"><span class="title">AI SaaS Platform — Tech Stack</span><span class="page-no">6 / 6</span></div>
+  </section>
+
+</div>
+</body>
+</html>
