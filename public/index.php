@@ -172,20 +172,41 @@ $app->get('/api/categories/{id}', [
 // Favorites API
 $app->post(
     '/api/listings/{id}/favorite',
-    [FavoriteController::class, 
-    'create'
-])->add(new AuthMiddleware());
+    [
+        FavoriteController::class,
+        'add'
+    ]
+)->add(new AuthMiddleware());
 
 $app->delete(
     '/api/listings/{id}/favorite',
-    [FavoriteController::class, 
-    'delete'
-])->add(new AuthMiddleware());
+    [
+        FavoriteController::class,
+        'remove'
+    ]
+)->add(new AuthMiddleware());
 
 $app->get(
     '/api/favorites',
-    [FavoriteController::class, 
-    'index'
-])->add(new AuthMiddleware());
+    [
+        FavoriteController::class,
+        'index'
+    ]
+)->add(new AuthMiddleware());
+
+//Publish API
+$app->post('/api/listings/{id}/publish', 
+    [
+        ListingController::class,
+        'publish'
+    ]
+)->add(new AuthMiddleware());
+
+$app->post('/api/listings/{id}/unpublish', 
+    [
+        ListingController::class,
+        'unpublish'
+    ]
+)->add(new AuthMiddleware());
 
 $app->run();

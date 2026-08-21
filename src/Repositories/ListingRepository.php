@@ -67,7 +67,10 @@ class ListingRepository
 
     public function findAll(array $filters = []): array
     {
-        $conditions = [];
+        $conditions = [
+            "l.status = 'published'"
+        ];
+
         $parameters = [];
 
         if (!empty($filters['category_id'])) {
@@ -372,5 +375,87 @@ class ListingRepository
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         return $result ?: null;
+    }
+
+    public function publish(
+        int $listingId,
+        int $userId
+    ): ?array {
+        $sql = '
+            UPDATE listings
+            SET
+                status = \'published\',
+                published_at = CURRENT_TIMESTAMP,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = :id
+            AND user_id = :user_id
+            RETURNING
+                id,
+                user_id,
+                category_id,
+                title,
+                description,
+                price,
+                currency,
+                condition,
+                status,
+                published_at,
+                created_at,
+                updated_at
+        ';
+
+        $statement = $this->database
+            ->getConnection()
+            ->prepare($sql);
+
+        $statement->execute([
+            'id'      => $listingId,
+            'user_id' => $userId,
+        ]);
+
+        $listing = $statement->fetch(PDO::FETCH_ASSOC);
+
+        return $listing !== false ? $listing : null;
+    }
+
+    public function unpublish(
+        int $listingId,
+        int $userId
+    ): ?array {
+        $sql = '
+            UPDATE listings
+            SET
+                status = \'draft\',
+                published_at = NULL,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = :id
+            AND user_id = :user_id
+            RETURNING
+                id,
+                user_id,
+                category_id,
+                title,
+                description,
+                price,
+                currency,
+                condition,
+                status,
+                published_at,
+                created_at,
+                updated_at
+        ';
+
+        $statement = $this->database
+            ->getConnection()
+            ->prepare($sql);
+
+        $statement->execute([
+            'id'      => $listingId,
+            'user_id' => $userId,
+        ]);
+
+        $listing = $statement->fetch(PDO::FETCH_ASSOC);
+
+        return $listing !== false ? $listing : null;
     }
 }

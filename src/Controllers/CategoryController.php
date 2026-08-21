@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 class CategoryController
 {
     public function index(
-        Request $request,
+        Request  $request,
         Response $response
     ): Response {
         $repository = new CategoryRepository(

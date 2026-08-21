@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>marketplaced.com — C4 "Two-Weight" Variations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@300;400;700;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14181F;
+    --paper:#FFFFFF;
+    --line:#E7E9EE;
+    --muted:#6B7280;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'DM Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:56px 32px 96px;}
+
+  header{margin-bottom:40px;}
+  .eyebrow{
+    font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:10px;
+  }
+  h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:32px;font-weight:700;margin:0 0 12px;letter-spacing:-0.01em;
+  }
+  header p{max-width:660px;font-size:15px;line-height:1.6;color:var(--muted);margin:0;}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+    margin-top:36px;
+  }
+  @media (max-width:760px){ .grid{grid-template-columns:1fr;} }
+
+  .card{
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+    background:#fff;
+  }
+  .stage{
+    height:150px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+  }
+  .meta{
+    border-top:1px solid var(--line);
+    padding:14px 20px 16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:12px;
+  }
+  .meta-name{font-size:13px;font-weight:700;}
+  .meta-detail{font-size:12px;color:var(--muted);line-height:1.5;margin-top:2px;}
+  .swatch{width:14px;height:14px;border-radius:4px;flex-shrink:0;margin-top:1px;border:1px solid rgba(0,0,0,.08);}
+
+  .word{font-size:29px;letter-spacing:-0.01em;display:flex;align-items:baseline;}
+
+  /* font families reused across variants */
+  .f-dm{font-family:'DM Sans',sans-serif;}
+  .f-inter{font-family:'Inter',sans-serif;}
+  .f-sg{font-family:'Space Grotesk',sans-serif;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="eyebrow">C4 "Two-Weight" · variations</div>
+    <h1>Ten takes on the same idea</h1>
+    <p>Same core move throughout: two contrasting weights carry "market" and "placed," and exactly one small accent does all the color work. What changes is which weight leads, the accent's shape and color, and the typeface underneath.</p>
+  </header>
+
+  <div class="grid">
+
+    <!-- V1: original -->
+    <div class="card">
+      <div class="stage">
+        <div class="word f-dm">
+          <span style="font-weight:700;color:#0B2545;">market</span><span style="font-weight:400;color:#0B2545;">placed</span><span style="font-weight:700;color:#0E7C7B;">.</span>
+        </div>
+      </div>
+      <div class="meta">
+        <div><div class="meta-name">V1 — Original</div><div class="meta-detail">Navy bold/regular · teal dot</div></div>
+        <div class="swatch" style="background:#0E7C7B"></div>
+      </div>
+    </div>
+
+    <!-- V2: coral dot -->
+    <div class="card">
+      <div class="stage">
+        <div class="word f-dm">
+          <span style="font-weight:700;color:#0B2545;">market</span><span style="font-weight:400;color:#0B2545;">placed</span><span style="font-weight:700;color:#FF6B4A;">.</span>
+        </div>
+      </div>
+      <div class="meta">
+        <div><div class="meta-name">V2 — Warm Accent</div><div class="meta-detail">Same navy, coral dot — friendlier without leaving the corporate lane</div></div>
+        <div class="swatch" style="background:#FF6B4A"></div>
+      </div>
+    </div>
+
+    <!-- V3: gold dot -->
+    <div class="card">
+      <div class="stage">
+        <div class="word f-dm">
+          <span style="font-weight:700;color:#14181F;">market</span><span style="font-weight:400;color:#14181F;">placed</span><span style="font-weight:700;color:#B08D57;">.</span>
+        </div>
+      </div>
+      <div class="meta">
+        <div><div class="meta-name">V3 — Premium</div><div class="meta-detail">Ink instead of navy, muted gold dot — closer to a marketplace-for-luxury feel</div></div>
+        <div class="swatch" style="background:#B08D57"></div>
+      </div>
+    </div>
+
+    <!-- V4: reversed weight -->
+    <div class="card">
+      <div class="stage">
+        <div class="word f-dm">
+          <span style="font-weight:400;color:#0B2545;">market</span><span style="font-weight:700;color:#0B2545;">placed</span><span style="font-weight:700;color:#0E7C7B;">.</span>
+        </div>
+      </div>
+      <div class="meta">
+        <div><div class="meta-name">V4 — Reversed Weight</div><div class="meta-detail">Light "market", bold "placed" — puts the emphasis on the verb, not the noun</div></div>
+        <div class="swatch" style="background:#0E7C7B"></div>
+      </div>
+    </div>
+
+    <!-- V5: two-tone color instead of two-tone weight -->
+    <div class="card">
+      <div class="stage">
+        <div class="word f-dm">
+          <span style="font-weight:700;color:#0B2545;">market</span><span style="font-weight:700;color:#8A93A3;">placed</span><span style="font-weight:700;color:#0E7C7B;">.</span>
+        </div>
+      </div>
+      <div class="meta">
+        <div><div class="meta-name">V5 — Two-Tone Color</div><div class="meta-detail">Both bold; navy vs. slate carries the split instead of weight</div></div>
+        <div class="swatch" style="background:#8A93A3"></div>
+      </div>
+    </div>
+
+    <!-- V6: Inter, all lowercase, tighter -->
+    <div class="card">
+      <div class="stage">
+        <div class="word f-inter">
+          <span style="font-weight:800;color:#0B2545;">market</span><span style="font-weight:300;color:#0B2545;">placed</span><span style="font-weight:800;color:#0E7C7B;">.</span>
+        </div>
+      </div>
+      <div class="meta">
+        <div><div class="meta-name">V6 — Inter Extremes</div><div class="meta-detail">800 vs. 300 for a sharper contrast; reads more "tech platform"</div></div>
+        <div class="swatch" style="background:#0E7C7B"></div>
+      </div>
+    </div>
+
+    <!-- V7: Space Grotesk -->
+    <div class="card">
+      <div class="stage">
+        <div class="word f-sg">
+          <span style="font-weight:700;color:#0B2545;">market</span><span style="font-weight:400;color:#0B2545;">placed</span><span style="font-weight:700;color:#0E7C7B;">.</span>
+        </div>
+      </div>
+      <div class="meta">
+        <div><div class="meta-name">V7 — Space Grotesk</div><div class="meta-detail">Squarer, slightly geometric letterforms — pairs C4's idea with C1's typeface</div></div>
+        <div class="swatch" style="background:#0E7C7B"></div>
+      </div>
+    </div>
+
+    <!-- V8: .com spelled out in accent instead of dot -->
+    <div class="card">
+      <div class="stage">
+        <div class="word f-dm">
+          <span style="font-weight:700;color:#0B2545;">market</span><span style="font-weight:400;color:#0B2545;">placed</span><span style="font-weight:700;color:#0E7C7B;">.com</span>
+        </div>
+      </div>
+      <div class="meta">
+        <div><div class="meta-name">V8 — Spelled-Out Domain</div><div class="meta-detail">".com" carries the accent color instead of a bare dot — leans into the domain as the brand</div></div>
+        <div class="swatch" style="background:#0E7C7B"></div>
+      </div>
+    </div>
+
+    <!-- V9: uppercase MARKET, lowercase placed -->
+    <div class="card">
+      <div class="stage">
+        <div class="word f-dm">
+          <span style="font-weight:700;color:#0B2545;letter-spacing:.03em;">MARKET</span><span style="font-weight:400;color:#0B2545;">placed</span><span style="font-weight:700;color:#0E7C7B;">.</span>
+        </div>
+      </div>
+      <div class="meta">
+        <div><div class="meta-name">V9 — Case Split</div><div class="meta-detail">Caps vs. lowercase does the contrast job instead of weight alone</div></div>
+        <div class="swatch" style="background:#0E7C7B"></div>
+      </div>
+    </div>
+
+    <!-- V10: dark mode / reversed panel -->
+    <div class="card">
+      <div class="stage" style="background:#0B2545;">
+        <div class="word f-dm">
+          <span style="font-weight:700;color:#FFFFFF;">market</span><span style="font-weight:400;color:#C9D2E0;">placed</span><span style="font-weight:700;color:#3FD6C6;">.</span>
+        </div>
+      </div>
+      <div class="meta">
+        <div><div class="meta-name">V10 — Dark Panel</div><div class="meta-detail">Navy field, off-white/slate split, brightened teal dot — for app icons or dark UI</div></div>
+        <div class="swatch" style="background:#3FD6C6"></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</body>
+</html>

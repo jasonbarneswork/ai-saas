@@ -112,10 +112,20 @@ class ListingController
             );
         }
 
+        $imageRepository = new ListingImageRepository(
+            new Database()
+        );
+
+        $images = $imageRepository->findByListingId($id);
+
+        $listingData = ListingResource::transform($listing);
+
+        $listingData['images'] = $images;
+
         return $this->json(
             $response,
             [
-                'data' => ListingResource::transform($listing)
+                'data' => $listingData
             ]
         );
     }
@@ -451,6 +461,140 @@ class ListingController
         }
 
         return $response->withStatus(204);
+    }
+
+    public function publish(
+        Request $request,
+        Response $response,
+        array $args
+    ): Response {
+        $id = (int) ($args['id'] ?? 0);
+
+        if ($id <= 0) {
+            return $this->json(
+                $response,
+                [
+                    'error' => 'Invalid listing ID.'
+                ],
+                400
+            );
+        }
+
+        $user = $request->getAttribute('user');
+
+        if (!is_array($user) || !isset($user['id'])) {
+            return $this->json(
+                $response,
+                [
+                    'error' => 'Authentication required.'
+                ],
+                401
+            );
+        }
+
+        $repository = new ListingRepository(
+            new Database()
+        );
+
+        try {
+            $listing = $repository->publish(
+                $id,
+                (int) $user['id']
+            );
+
+            if ($listing === null) {
+                return $this->json(
+                    $response,
+                    [
+                        'error' =>
+                            'Listing not found or you do not own this listing.'
+                    ],
+                    404
+                );
+            }
+
+            return $this->json(
+                $response,
+                [
+                    'data' => $listing
+                ]
+            );
+        } catch (\PDOException $exception) {
+            return $this->json(
+                $response,
+                [
+                    'error' => 'Unable to publish listing.'
+                ],
+                500
+            );
+        }
+    }
+
+    public function unpublish(
+        Request $request,
+        Response $response,
+        array $args
+    ): Response {
+        $id = (int) ($args['id'] ?? 0);
+
+        if ($id <= 0) {
+            return $this->json(
+                $response,
+                [
+                    'error' => 'Invalid listing ID.'
+                ],
+                400
+            );
+        }
+
+        $user = $request->getAttribute('user');
+
+        if (!is_array($user) || !isset($user['id'])) {
+            return $this->json(
+                $response,
+                [
+                    'error' => 'Authentication required.'
+                ],
+                401
+            );
+        }
+
+        $repository = new ListingRepository(
+            new Database()
+        );
+
+        try {
+            $listing = $repository->unpublish(
+                $id,
+                (int) $user['id']
+            );
+
+            if ($listing === null) {
+                return $this->json(
+                    $response,
+                    [
+                        'error' =>
+                            'Listing not found or you do not own this listing.'
+                    ],
+                    404
+                );
+            }
+
+            return $this->json(
+                $response,
+                [
+                    'data' => $listing
+                ]
+            );
+        } catch (\PDOException $exception) {
+            return $this->json(
+                $response,
+                [
+                    'error' => 'Unable to unpublish listing.'
+                ],
+                500
+            );
+        }
     }
 
     private function json(

@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class FavoriteController
 {
-    public function create(
+    public function add(
         Request $request,
         Response $response,
         array $args
@@ -20,74 +20,127 @@ class FavoriteController
         $listingId = (int) ($args['id'] ?? 0);
 
         if ($listingId <= 0) {
-            return $this->json($response, [
-                'error' => 'Invalid listing ID.',
-            ], 400);
+            return $this->json(
+                $response,
+                [
+                    'error' => 'Invalid listing ID.'
+                ],
+                400
+            );
         }
 
         $user = $request->getAttribute('user');
 
         if (!is_array($user) || !isset($user['id'])) {
-            return $this->json($response, [
-                'error' => 'Authentication required.',
-            ], 401);
+            return $this->json(
+                $response,
+                [
+                    'error' => 'Authentication required.'
+                ],
+                401
+            );
         }
 
-        $database = new Database();
+        $userId = (int) $user['id'];
 
-        $listingRepository = new ListingRepository($database);
+        $listingRepository = new ListingRepository(
+            new Database()
+        );
+
         $listing = $listingRepository->findById($listingId);
 
         if ($listing === null) {
-            return $this->json($response, [
-                'error' => 'Listing not found.',
-            ], 404);
-        }
-
-        $favoriteRepository = new FavoriteRepository($database);
-
-        $favoriteRepository->create(
-            (int) $user['id'],
-            $listingId
-        );
-
-        return $this->json($response, [
-            'data' => [
-                'listing_id' => $listingId,
-                'favorited'  => true,
-            ],
-        ]);
-    }
-
-    public function delete(
-        Request $request,
-        Response $response,
-        array $args
-    ): Response {
-        $listingId = (int) ($args['id'] ?? 0);
-
-        if ($listingId <= 0) {
-            return $this->json($response, [
-                'error' => 'Invalid listing ID.',
-            ], 400);
-        }
-
-        $user = $request->getAttribute('user');
-
-        if (!is_array($user) || !isset($user['id'])) {
-            return $this->json($response, [
-                'error' => 'Authentication required.',
-            ], 401);
+            return $this->json(
+                $response,
+                [
+                    'error' => 'Listing not found.'
+                ],
+                404
+            );
         }
 
         $favoriteRepository = new FavoriteRepository(
             new Database()
         );
 
-        $favoriteRepository->delete(
-            (int) $user['id'],
+        $created = $favoriteRepository->create(
+            $userId,
             $listingId
         );
+
+        if (!$created) {
+            return $this->json(
+                $response,
+                [
+                    'data' => [
+                        'listing_id' => $listingId,
+                        'favorited' => true,
+                    ]
+                ]
+            );
+        }
+
+        return $this->json(
+            $response,
+            [
+                'data' => [
+                    'listing_id' => $listingId,
+                    'favorited' => true,
+                ]
+            ],
+            201
+        );
+    }
+
+    public function remove(
+        Request $request,
+        Response $response,
+        array $args
+    ): Response {
+        $listingId = (int) ($args['id'] ?? 0);
+
+        if ($listingId <= 0) {
+            return $this->json(
+                $response,
+                [
+                    'error' => 'Invalid listing ID.'
+                ],
+                400
+            );
+        }
+
+        $user = $request->getAttribute('user');
+
+        if (!is_array($user) || !isset($user['id'])) {
+            return $this->json(
+                $response,
+                [
+                    'error' => 'Authentication required.'
+                ],
+                401
+            );
+        }
+
+        $userId = (int) $user['id'];
+
+        $favoriteRepository = new FavoriteRepository(
+            new Database()
+        );
+
+        $deleted = $favoriteRepository->delete(
+            $userId,
+            $listingId
+        );
+
+        if (!$deleted) {
+            return $this->json(
+                $response,
+                [
+                    'error' => 'Favorite not found.'
+                ],
+                404
+            );
+        }
 
         return $response->withStatus(204);
     }
@@ -99,9 +152,13 @@ class FavoriteController
         $user = $request->getAttribute('user');
 
         if (!is_array($user) || !isset($user['id'])) {
-            return $this->json($response, [
-                'error' => 'Authentication required.',
-            ], 401);
+            return $this->json(
+                $response,
+                [
+                    'error' => 'Authentication required.'
+                ],
+                401
+            );
         }
 
         $favoriteRepository = new FavoriteRepository(
@@ -112,9 +169,12 @@ class FavoriteController
             (int) $user['id']
         );
 
-        return $this->json($response, [
-            'data' => $favorites,
-        ]);
+        return $this->json(
+            $response,
+            [
+                'data' => $favorites
+            ]
+        );
     }
 
     private function json(
@@ -130,7 +190,7 @@ class FavoriteController
         );
 
         return $response
-            ->withStatus($status)
-            ->withHeader('Content-Type', 'application/json');
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus($status);
     }
 }
